@@ -15,6 +15,7 @@ if __name__ == '__main__':
     parser.add_argument('--prompt', default=None,type=str)
     parser.add_argument('--split', default='test',type=str)
     parser.add_argument('--batch_size', default=128,type=int)
+    parser.add_argument('--task_type', default=None,type=str)
     args = parser.parse_args()
 
     if not args.result_file.endswith('.txt') and not os.path.isdir(args.result_file):
@@ -25,7 +26,10 @@ if __name__ == '__main__':
     #
     # tqdm.__init__ = partialmethod(tqdm.__init__, disable=True)
     model = INSTRUCTOR(args.model_name,cache_folder=args.cache_dir)
-    evaluation = MTEB(tasks=[args.task_name],task_langs=["en"])
+    if args.task_name:
+        evaluation = MTEB(tasks=[args.task_name],task_langs=["en"])
+    else:
+        evaluation = MTEB(tasks=[args.task_type])
     evaluation.run(model, output_folder=args.output_dir, eval_splits=[args.split],args=args,)
 
     print("--DONE--")
