@@ -219,7 +219,7 @@ To evaluate the model performance on MTEB benchmark dataset, first install the M
 
 ```python
 cd evaluation/MTEB
-pip install -e .
+pip install mteb & beir
 ```
 Then run the following command:
 ```python
